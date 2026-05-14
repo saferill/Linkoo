@@ -1,0 +1,15 @@
+# Flutter & Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Windows & Android Ephemeral
+**/windows/flutter/ephemeral/
+**/android/.gradle/
+**/android/app/build/
+**/android/build/
+.gradle/
+*.lock
+generate_commits.js
