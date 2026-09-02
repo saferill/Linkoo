@@ -1,0 +1,1 @@
+Add-AppxPackage .\linko_msix_helper.msix -ExternalLocation $(Get-Location)
