@@ -1,0 +1,9 @@
+name: _linko_workspace
+publish_to: none
+
+environment:
+  sdk: ^3.11.0
+
+workspace:
+  - app
+  - packages/linko_isolates
