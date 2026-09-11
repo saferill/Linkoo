@@ -21,7 +21,7 @@ const FILE_SIZE: usize = 1024 * 1024;
 async fn main() -> anyhow::Result<()> {
     let mut args = std::env::args().skip(1);
     let host = args.next().unwrap_or_else(|| "127.0.0.1".to_string());
-    let port: u16 = args.next().map(|arg| arg.parse()).transpose()?.unwrap_or(53317);
+    let port: u16 = args.next().map(|arg| arg.parse()).transpose()?.unwrap_or(48855);
     let pin = args.next();
 
     let mut rng = rand::rng();

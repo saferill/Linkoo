@@ -152,7 +152,7 @@ mod tests {
             device_model: Some("Samsung".to_string()),
             device_type: Some(DeviceType::Mobile),
             fingerprint: "random string".to_string(),
-            port: 53317,
+            port: 48855,
             protocol: ProtocolType::Https,
             download: true,
         };
@@ -174,7 +174,7 @@ mod tests {
             "deviceModel": "Windows",
             "deviceType": "desktop",
             "fingerprint": "random string",
-            "port": 53317,
+            "port": 48855,
             "protocol": "https",
             "download": true
         }"#;
@@ -184,7 +184,7 @@ mod tests {
         assert_eq!(msg.version, "2.2");
         assert_eq!(msg.device_model, Some("Windows".to_string()));
         assert_eq!(msg.device_type, Some(DeviceType::Desktop));
-        assert_eq!(msg.port, 53317);
+        assert_eq!(msg.port, 48855);
         assert_eq!(msg.protocol, ProtocolType::Https);
         assert!(msg.download);
     }
@@ -195,7 +195,7 @@ mod tests {
             "alias": "Secret Banana",
             "version": "2.2",
             "fingerprint": "random string",
-            "port": 53317,
+            "port": 48855,
             "protocol": "http"
         }"#;
 

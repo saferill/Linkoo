@@ -271,7 +271,7 @@ mod tests {
             fingerprint: fingerprint.to_string(),
             channel: DeviceChannel::Http(HttpChannel {
                 host: host.to_string(),
-                port: 53317,
+                port: 48855,
                 protocol: ProtocolType::Https,
             }),
             download: false,
@@ -388,7 +388,7 @@ mod tests {
         channels.sort();
         assert_eq!(
             channels,
-            [("192.168.0.10", 54000), ("fe80::1%3", 53317)],
+            [("192.168.0.10", 54000), ("fe80::1%3", 48855)],
             "a known address must be replaced, not duplicated"
         );
     }

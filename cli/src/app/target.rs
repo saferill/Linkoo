@@ -83,7 +83,7 @@ mod tests {
     fn device(alias: &str, fingerprint: &str, host: &str) -> StatefulDevice {
         let channel = DeviceChannel::Http(HttpChannel {
             host: host.to_string(),
-            port: 53317,
+            port: 48855,
             protocol: ProtocolType::Https,
         });
         StatefulDevice {
@@ -126,7 +126,7 @@ mod tests {
             selector.direct_channel(),
             Some(HttpChannel {
                 host: "192.168.27.26".to_string(),
-                port: 53317,
+                port: 48855,
                 protocol: ProtocolType::Https,
             })
         );

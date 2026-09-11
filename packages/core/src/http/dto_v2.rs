@@ -177,7 +177,7 @@ mod tests {
             "deviceModel": "Windows",
             "deviceType": "desktop",
             "fingerprint": "random string",
-            "port": 53317,
+            "port": 48855,
             "protocol": "https",
             "download": true
         }"#;
@@ -188,7 +188,7 @@ mod tests {
         assert_eq!(dto.device_model, Some("Windows".to_string()));
         assert_eq!(dto.device_type, Some(DeviceType::Desktop));
         assert_eq!(dto.fingerprint, "random string");
-        assert_eq!(dto.port, 53317);
+        assert_eq!(dto.port, 48855);
         assert_eq!(dto.protocol, ProtocolType::Https);
         assert!(dto.download);
     }
@@ -201,7 +201,7 @@ mod tests {
             "version": "2.0",
             "deviceType": "fridge",
             "fingerprint": "abc123",
-            "port": 53317,
+            "port": 48855,
             "protocol": "http"
         }"#;
 
@@ -232,7 +232,7 @@ mod tests {
                 device_model: None,
                 device_type: None,
                 fingerprint: "sender-fingerprint".to_string(),
-                port: 53317,
+                port: 48855,
                 protocol: ProtocolType::Https,
                 download: false,
             },

@@ -156,7 +156,7 @@ fn sender_info(fingerprint: &str) -> RegisterDtoV2 {
         device_model: Some("Rust".to_string()),
         device_type: None,
         fingerprint: fingerprint.to_string(),
-        port: 53317,
+        port: 48855,
         protocol: ProtocolType::Https,
         download: false,
     }

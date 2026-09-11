@@ -206,7 +206,7 @@ mod tests {
     fn channel(host: &str) -> PairedChannel {
         PairedChannel {
             host: host.to_string(),
-            port: 53317,
+            port: 48855,
             protocol: ProtocolType::Https,
         }
     }

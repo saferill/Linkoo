@@ -55,6 +55,7 @@ dependencies:
   share_handler: 0.0.22
   shared_preferences: 2.5.5
   shared_preferences_platform_interface: any
+  slang_flutter: ^4.19.0
   system_settings_2: 3.0.2
   tray_manager: 0.5.3
   uri_content: 3.1.1

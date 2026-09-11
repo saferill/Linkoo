@@ -2,7 +2,7 @@
 //
 // "Send to -> Linko" starts a second process with the file paths as
 // arguments. Only the internal `show` handover keeps that process from becoming
-// a duplicate instance that then collides on port 53317.
+// a duplicate instance that then collides on port 48855.
 //
 // Two things made the handover fail:
 //   * it was addressed with `peerProtocolVersion` ('1.0'), which builds the v1

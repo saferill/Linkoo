@@ -13,3 +13,7 @@ build/
 .gradle/
 *.lock
 generate_commits.js
+
+# Rust
+target/
+

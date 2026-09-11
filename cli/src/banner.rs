@@ -50,7 +50,7 @@ pub fn render(storage: &Repository, server: &ServerHandle) -> String {
 /// several equivalent IPv6 addresses (e.g. temporary privacy addresses),
 /// which would flood the banner.
 ///
-/// IPv6 addresses render bracketed ("[::1]:53317"), as a URL needs them.
+/// IPv6 addresses render bracketed ("[::1]:48855"), as a URL needs them.
 /// Relies on the addresses being sorted, so that each scope is contiguous.
 pub fn listening_lines(addresses: &[SocketAddr], scheme: &str) -> Vec<String> {
     let mut lines: Vec<(String, usize)> = Vec::new();
@@ -85,7 +85,7 @@ mod tests {
     use super::*;
 
     fn address(s: &str) -> SocketAddr {
-        SocketAddr::new(s.parse().unwrap(), 53317)
+        SocketAddr::new(s.parse().unwrap(), 48855)
     }
 
     #[test]
@@ -93,14 +93,14 @@ mod tests {
         let lines = listening_lines(&[address("10.0.0.1"), address("192.168.0.1")], "https");
         assert_eq!(
             lines,
-            [" - https://10.0.0.1:53317", " - https://192.168.0.1:53317"]
+            [" - https://10.0.0.1:48855", " - https://192.168.0.1:48855"]
         );
     }
 
     #[test]
     fn test_scheme_is_configurable() {
         let lines = listening_lines(&[address("10.0.0.1")], "http");
-        assert_eq!(lines, [" - http://10.0.0.1:53317"]);
+        assert_eq!(lines, [" - http://10.0.0.1:48855"]);
     }
 
     #[test]
@@ -119,9 +119,9 @@ mod tests {
         assert_eq!(
             lines,
             [
-                " - https://192.168.0.1:53317",
-                " - https://[2a02::1]:53317 (+2 more)",
-                " - https://[fd44::1]:53317 (+1 more)",
+                " - https://192.168.0.1:48855",
+                " - https://[2a02::1]:48855 (+2 more)",
+                " - https://[fd44::1]:48855 (+1 more)",
             ]
         );
     }
@@ -129,6 +129,6 @@ mod tests {
     #[test]
     fn test_single_ipv6_has_no_suffix() {
         let lines = listening_lines(&[address("2a02::1")], "https");
-        assert_eq!(lines, [" - https://[2a02::1]:53317"]);
+        assert_eq!(lines, [" - https://[2a02::1]:48855"]);
     }
 }
