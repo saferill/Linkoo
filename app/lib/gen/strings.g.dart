@@ -4,15 +4,16 @@
 /// To regenerate, run: `dart run slang`
 ///
 /// Locales: 58
-/// Strings: 21022 (362 per locale)
+/// Strings: 21024 (362 per locale)
 
 // coverage:ignore-file
 // ignore_for_file: type=lint, unused_import
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:linko_app/core/i18n/translation_runtime.dart';
-export 'package:linko_app/core/i18n/translation_runtime.dart';
+import 'package:slang/generated.dart';
+import 'package:slang_flutter/slang_flutter.dart';
+export 'package:slang_flutter/slang_flutter.dart';
 
 import 'strings_ar.g.dart' deferred as l_ar;
 import 'strings_az.g.dart' deferred as l_az;
@@ -937,7 +938,7 @@ enum AppLocale with BaseAppLocale<AppLocale, Translations> {
 ///
 /// Usage:
 /// String a = t.someKey.anotherKey;
-Translations get t => LocaleSettings.currentTranslations;
+Translations get t => LocaleSettings.instance.currentTranslations;
 
 /// Method B: Advanced
 ///
@@ -979,16 +980,15 @@ class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, Translations> 
   static final instance = LocaleSettings._();
 
   // static aliases (checkout base methods for documentation)
-  static AppLocale get currentLocale => instance.currentLocaleInternal;
-  static Translations get currentTranslations => instance.currentTranslationsInternal;
-  static Stream<AppLocale> getLocaleStream() => instance.getLocaleStreamInternal();
+  static AppLocale get currentLocale => instance.currentLocale;
+  static Stream<AppLocale> getLocaleStream() => instance.getLocaleStream();
   static Future<AppLocale> setLocale(AppLocale locale, {bool? listenToDeviceLocale = false}) =>
-      instance.setLocaleInternal(locale, listenToDeviceLocale: listenToDeviceLocale);
+      instance.setLocale(locale, listenToDeviceLocale: listenToDeviceLocale);
   static Future<AppLocale> setLocaleRaw(String rawLocale, {bool? listenToDeviceLocale = false}) =>
-      instance.setLocaleRawInternal(rawLocale, listenToDeviceLocale: listenToDeviceLocale);
-  static Future<AppLocale> useDeviceLocale() => instance.useDeviceLocaleInternal();
+      instance.setLocaleRaw(rawLocale, listenToDeviceLocale: listenToDeviceLocale);
+  static Future<AppLocale> useDeviceLocale() => instance.useDeviceLocale();
   static Future<void> setPluralResolver({String? language, AppLocale? locale, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver}) =>
-      instance.setPluralResolverInternal(
+      instance.setPluralResolver(
         language: language,
         locale: locale,
         cardinalResolver: cardinalResolver,
@@ -997,19 +997,17 @@ class LocaleSettings extends BaseFlutterLocaleSettings<AppLocale, Translations> 
 
   // synchronous versions
   static AppLocale setLocaleSync(AppLocale locale, {bool? listenToDeviceLocale = false}) =>
-      instance.setLocaleSyncInternal(locale, listenToDeviceLocale: listenToDeviceLocale);
+      instance.setLocaleSync(locale, listenToDeviceLocale: listenToDeviceLocale);
   static AppLocale setLocaleRawSync(String rawLocale, {bool? listenToDeviceLocale = false}) =>
-      instance.setLocaleRawSyncInternal(rawLocale, listenToDeviceLocale: listenToDeviceLocale);
-  static AppLocale useDeviceLocaleSync() => instance.useDeviceLocaleSyncInternal();
+      instance.setLocaleRawSync(rawLocale, listenToDeviceLocale: listenToDeviceLocale);
+  static AppLocale useDeviceLocaleSync() => instance.useDeviceLocaleSync();
   static void setPluralResolverSync({String? language, AppLocale? locale, PluralResolver? cardinalResolver, PluralResolver? ordinalResolver}) =>
-      instance.setPluralResolverSyncInternal(
+      instance.setPluralResolverSync(
         language: language,
         locale: locale,
         cardinalResolver: cardinalResolver,
         ordinalResolver: ordinalResolver,
       );
-
-  Translations getTranslations(AppLocale locale) => instance.getTranslationsInternal(locale);
 }
 
 /// Provides utility functions without any side effects.
@@ -1023,12 +1021,12 @@ class AppLocaleUtils extends BaseAppLocaleUtils<AppLocale, Translations> {
   static final instance = AppLocaleUtils._();
 
   // static aliases (checkout base methods for documentation)
-  static AppLocale parse(String rawLocale) => instance.parseLocale(rawLocale);
+  static AppLocale parse(String rawLocale) => instance.parse(rawLocale);
   static AppLocale parseLocaleParts({required String languageCode, String? scriptCode, String? countryCode}) =>
-      instance.parseLocalePartsInternal(languageCode: languageCode, scriptCode: scriptCode, countryCode: countryCode);
-  static AppLocale findDeviceLocale() => instance.findDeviceLocaleInternal();
-  static List<Locale> get supportedLocales => instance.locales.map((e) => e.flutterLocale).toList();
-  static List<String> get supportedLocalesRaw => instance.locales.map((e) => e.languageCode).toList();
+      instance.parseLocaleParts(languageCode: languageCode, scriptCode: scriptCode, countryCode: countryCode);
+  static AppLocale findDeviceLocale() => instance.findDeviceLocale();
+  static List<Locale> get supportedLocales => instance.supportedLocales;
+  static List<String> get supportedLocalesRaw => instance.supportedLocalesRaw;
 }
 
 // interfaces generated as mixins

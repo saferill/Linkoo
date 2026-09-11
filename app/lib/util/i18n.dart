@@ -29,6 +29,8 @@ Future<void> initI18n() async {
 }
 
 extension AppLocaleExt on AppLocale {
+  String get languageTag => countryCode != null ? '${languageCode}_$countryCode' : languageCode;
+
   /// The name of the locale in its own language.
   String getLocaleName() {
     return switch (this) {

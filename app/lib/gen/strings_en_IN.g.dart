@@ -6,7 +6,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:linko_app/core/i18n/translation_runtime.dart';
+import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
 // Path: <root>
@@ -19,7 +19,7 @@ class TranslationsEnIn extends Translations with BaseTranslations<AppLocale, Tra
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
   }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-       $meta =
+       _meta =
            meta ??
            TranslationMetadata(
              locale: AppLocale.enIn,
@@ -30,8 +30,9 @@ class TranslationsEnIn extends Translations with BaseTranslations<AppLocale, Tra
        super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver);
 
   /// Metadata for the translations of <en-IN>.
+  final TranslationMetadata<AppLocale, Translations> _meta;
   @override
-  final TranslationMetadata<AppLocale, Translations> $meta;
+  TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
   late final TranslationsEnIn _root = this; // ignore: unused_field
 
@@ -205,7 +206,7 @@ class _Translations$sendTab$en_IN extends Translations$sendTab$en {
   @override
   String get shareIntentInfo => 'You can also use the "Share" feature of your mobile device to select files more easily.';
   @override
-  String get nearbyDevices => 'Nearby devices';
+  String get nearbyDevices => 'Available devices';
   @override
   String get thisDevice => 'This Device';
   @override

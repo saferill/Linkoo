@@ -6,7 +6,7 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
-import 'package:linko_app/core/i18n/translation_runtime.dart';
+import 'package:slang/generated.dart';
 import 'strings.g.dart';
 
 // Path: <root>
@@ -19,7 +19,7 @@ class TranslationsId extends Translations with BaseTranslations<AppLocale, Trans
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
   }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-       $meta =
+       _meta =
            meta ??
            TranslationMetadata(
              locale: AppLocale.id,
@@ -30,8 +30,9 @@ class TranslationsId extends Translations with BaseTranslations<AppLocale, Trans
        super(cardinalResolver: cardinalResolver, ordinalResolver: ordinalResolver);
 
   /// Metadata for the translations of <id>.
+  final TranslationMetadata<AppLocale, Translations> _meta;
   @override
-  final TranslationMetadata<AppLocale, Translations> $meta;
+  TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
   late final TranslationsId _root = this; // ignore: unused_field
 
@@ -230,6 +231,8 @@ class _Translations$sendTab$id extends Translations$sendTab$en {
   String get help => 'Kedua perangkat harus terhubung ke jaringan Wi-Fi yang sama agar fitur ini berfungsi.';
   @override
   String get placeItems => 'Letakkan item untuk dibagikan.';
+  @override
+  String sentToDevice({required Object device}) => 'Terkirim ke ${device}';
 }
 
 // Path: settingsTab
@@ -467,7 +470,7 @@ class _Translations$webSharePage$id extends Translations$webSharePage$en {
 
   // Translations
   @override
-  String get title => 'Bagikan melalui Tautan';
+  String get title => 'Bagikan via Browser';
   @override
   String get loading => 'Memulai peladen…';
   @override

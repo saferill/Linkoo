@@ -82,7 +82,8 @@
     },
     "sendModeHelp": "Explanation",
     "help": "Both devices need to be connected to the same Wi-Fi network for this to work.",
-    "placeItems": "Place items to share."
+    "placeItems": "Place items to share.",
+    "sentToDevice": "Sent to {device}"
   },
   "settingsTab": {
     "title": "Settings",

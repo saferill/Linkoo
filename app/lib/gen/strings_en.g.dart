@@ -24,7 +24,7 @@ class Translations with BaseTranslations<AppLocale, Translations> {
     PluralResolver? ordinalResolver,
     TranslationMetadata<AppLocale, Translations>? meta,
   }) : assert(overrides == null, 'Set "translation_overrides: true" in order to enable this feature.'),
-       $meta =
+       _meta =
            meta ??
            TranslationMetadata(
              locale: AppLocale.en,
@@ -34,8 +34,9 @@ class Translations with BaseTranslations<AppLocale, Translations> {
            );
 
   /// Metadata for the translations of <en>.
+  final TranslationMetadata<AppLocale, Translations> _meta;
   @override
-  final TranslationMetadata<AppLocale, Translations> $meta;
+  TranslationMetadata<AppLocale, Translations> get $meta => _meta;
 
   late final Translations _root = this; // ignore: unused_field
 
@@ -258,6 +259,9 @@ class Translations$sendTab$en {
 
   /// en: 'Place items to share.'
   String get placeItems => 'Place items to share.';
+
+  /// en: 'Sent to {device}'
+  String sentToDevice({required Object device}) => 'Sent to ${device}';
 }
 
 // Path: settingsTab
@@ -1109,10 +1113,10 @@ class Translations$settingsTab$receive$en {
   /// en: 'Receive'
   String get title => 'Receive';
 
-  /// en: 'Quick Save'
+  /// en: 'Auto Accept'
   String get quickSave => _root.general.quickSave;
 
-  /// en: 'Quick Save for "Favorites"'
+  /// en: 'Auto Accept from Favorites'
   String get quickSaveFromFavorites => _root.general.quickSaveFromFavorites;
 
   /// en: 'Require PIN'
@@ -1753,7 +1757,7 @@ class Translations$dialogs$quickSaveNotice$en {
 
   // Translations
 
-  /// en: 'Quick Save'
+  /// en: 'Auto Accept'
   String get title => _root.general.quickSave;
 
   /// en: 'File requests are now accepted automatically. Be aware that everyone on the local network can send you files.'
@@ -1768,7 +1772,7 @@ class Translations$dialogs$quickSaveFromFavoritesNotice$en {
 
   // Translations
 
-  /// en: 'Quick Save for "Favorites"'
+  /// en: 'Auto Accept from Favorites'
   String get title => _root.general.quickSaveFromFavorites;
 
   List<String> get content => [

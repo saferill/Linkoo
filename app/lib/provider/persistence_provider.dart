@@ -5,6 +5,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:linko_app/gen/strings.g.dart';
+import 'package:linko_app/util/i18n.dart';
 import 'package:linko_app/model/persistence/color_mode.dart';
 import 'package:linko_app/model/persistence/favorite_device.dart';
 import 'package:linko_app/model/persistence/quick_save_mode.dart';

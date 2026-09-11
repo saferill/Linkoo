@@ -53,7 +53,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Terkirim ke ${device.alias}'),
+            content: Text(t.sendTab.sentToDevice(device: device.alias)),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -205,7 +205,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Terkirim ke ${device.alias}'),
+            content: Text(t.sendTab.sentToDevice(device: device.alias)),
             behavior: SnackBarBehavior.floating,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),

@@ -82,7 +82,8 @@
     },
     "sendModeHelp": "Penjelasan",
     "help": "Kedua perangkat harus terhubung ke jaringan Wi-Fi yang sama agar fitur ini berfungsi.",
-    "placeItems": "Letakkan item untuk dibagikan."
+    "placeItems": "Letakkan item untuk dibagikan.",
+    "sentToDevice": "Terkirim ke {device}"
   },
   "settingsTab": {
     "title": "Pengaturan",
