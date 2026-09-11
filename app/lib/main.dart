@@ -7,6 +7,7 @@ import 'package:linko_app/features/settings/settings.dart';
 import 'package:linko_app/gen/strings.g.dart';
 import 'package:linko_app/model/persistence/color_mode.dart';
 import 'package:linko_app/pages/home_page.dart';
+import 'package:linko_app/pages/splash_page.dart';
 import 'package:linko_app/widget/watcher/life_cycle_watcher.dart';
 import 'package:linko_app/widget/watcher/shortcut_watcher.dart';
 import 'package:linko_app/widget/watcher/tray_watcher.dart';
@@ -82,10 +83,7 @@ class LinkoApp extends StatelessWidget {
               themeMode: colorMode == ColorMode.oled ? ThemeMode.dark : themeMode,
               navigatorKey: context.read(navigationProvider).key,
               home: RouterinoHome(
-                builder: () => const HomePage(
-                  initialTab: HomeTab.devices,
-                  appStart: true,
-                ),
+                builder: () => const SplashPage(),
               ),
             ),
           ),

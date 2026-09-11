@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:linko_app/pages/home_page.dart';
 
@@ -29,7 +31,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(curvedAnimation);
     _scaleAnimation = Tween<double>(begin: 0.85, end: 1.0).animate(curvedAnimation);
 
-    _startSplashSequence();
+    unawaited(_startSplashSequence());
   }
 
   Future<void> _startSplashSequence() async {
