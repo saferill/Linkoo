@@ -153,9 +153,9 @@ class _Translations$general$id extends Translations$general$en {
   @override
   String get queue => 'Antrean';
   @override
-  String get quickSave => 'Penyimpanan Cepat';
+  String get quickSave => 'Terima Otomatis';
   @override
-  String get quickSaveFromFavorites => 'Simpan Cepat di “Favorit”';
+  String get quickSaveFromFavorites => 'Terima Otomatis dari Favorit';
   @override
   String get renamed => 'Ganti nama';
   @override
@@ -194,7 +194,7 @@ class _Translations$receiveTab$id extends Translations$receiveTab$en {
   @override
   late final _Translations$receiveTab$quickSave$id quickSave = _Translations$receiveTab$quickSave$id._(_root);
   @override
-  String get link => 'Terima melalui tautan';
+  String get link => 'Terima via Browser';
 }
 
 // Path: sendTab
@@ -213,7 +213,7 @@ class _Translations$sendTab$id extends Translations$sendTab$en {
   @override
   String get shareIntentInfo => 'Anda juga dapat menggunakan fitur "Berbagi" agar dapat memilih berkas dengan lebih mudah.';
   @override
-  String get nearbyDevices => 'Perangkat Terdekat';
+  String get nearbyDevices => 'Perangkat Tersedia';
   @override
   String get thisDevice => 'Perangkat Ini';
   @override
@@ -227,7 +227,7 @@ class _Translations$sendTab$id extends Translations$sendTab$en {
   @override
   String get sendModeHelp => 'Penjelasan';
   @override
-  String get help => 'Pastikan perangkat tujuan juga terkoneksi pada jaringan Wi-Fi yang sama.';
+  String get help => 'Kedua perangkat harus terhubung ke jaringan Wi-Fi yang sama agar fitur ini berfungsi.';
   @override
   String get placeItems => 'Letakkan item untuk dibagikan.';
 }
@@ -506,7 +506,7 @@ class _Translations$webReceivePage$id extends Translations$webReceivePage$en {
 
   // Translations
   @override
-  String get title => 'Terima melalui tautan';
+  String get title => 'Terima via Browser';
 }
 
 // Path: aboutPage
@@ -834,7 +834,7 @@ class _Translations$sendTab$sendModes$id extends Translations$sendTab$sendModes$
   @override
   String get multiple => 'Banyak penerima';
   @override
-  String get link => 'Bagikan melalui tautan';
+  String get link => 'Bagikan via Browser';
 }
 
 // Path: settingsTab.general

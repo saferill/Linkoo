@@ -147,9 +147,9 @@ class _Translations$general$en_IN extends Translations$general$en {
   @override
   String get queue => 'Queue';
   @override
-  String get quickSave => 'Quick Save';
+  String get quickSave => 'Auto Accept';
   @override
-  String get quickSaveFromFavorites => 'Quick Save for "Favourites"';
+  String get quickSaveFromFavorites => 'Auto Accept for "Favourites"';
   @override
   String get renamed => 'Renamed';
   @override
@@ -219,7 +219,7 @@ class _Translations$sendTab$en_IN extends Translations$sendTab$en {
   @override
   String get sendModeHelp => 'Explanation';
   @override
-  String get help => 'Please ensure that the desired target is also on the same Wi-Fi network.';
+  String get help => 'Both devices need to be connected to the same Wi-Fi network for this to work.';
   @override
   String get placeItems => 'Place items to share.';
 }
@@ -848,7 +848,7 @@ class _Translations$sendTab$sendModes$en_IN extends Translations$sendTab$sendMod
   @override
   String get multiple => 'Multiple recipients';
   @override
-  String get link => 'Share via link';
+  String get link => 'Share via Browser';
 }
 
 // Path: settingsTab.general

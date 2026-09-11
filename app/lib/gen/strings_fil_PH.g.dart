@@ -155,7 +155,7 @@ class _Translations$general$fil_PH extends Translations$general$en {
   @override
   String get queue => 'Pila';
   @override
-  String get quickSave => 'Quick Save';
+  String get quickSave => 'Auto Accept';
   @override
   String get quickSaveFromFavorites => 'I-save agad kapag galing sa "Favorites"';
   @override

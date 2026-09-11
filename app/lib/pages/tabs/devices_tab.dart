@@ -322,12 +322,12 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
 
         const SizedBox(height: 24),
 
-        // 2. Nearby Devices Section Header
+        // 2. Available Devices Section Header
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Nearby Devices',
+              t.sendTab.nearbyDevices,
               style: theme.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
               ),
@@ -345,7 +345,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                     }
                   },
                   icon: const Icon(Icons.add_link_rounded, size: 20),
-                  tooltip: 'Manual IP',
+                  tooltip: t.sendTab.manualSending,
                 ),
                 const SizedBox(width: 8),
                 IconButton.filledTonal(
@@ -357,7 +357,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                     spinning: nearbyDevicesState.runningFavoriteScan || nearbyDevicesState.runningIps.isNotEmpty,
                     child: const Icon(Icons.refresh_rounded, size: 20),
                   ),
-                  tooltip: 'Scan Devices',
+                  tooltip: t.sendTab.scan,
                 ),
               ],
             ),
@@ -388,14 +388,14 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                   ),
                   const SizedBox(height: 16),
                   Text(
-                    'Looking for devices...',
+                    '${t.sendTab.scan}...',
                     style: theme.textTheme.titleSmall?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Make sure other devices have Linko open and are connected to the same Wi-Fi network.',
+                    t.sendTab.help,
                     textAlign: TextAlign.center,
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
@@ -405,7 +405,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                   TextButton.icon(
                     onPressed: () => context.push(() => const TroubleshootPage()),
                     icon: const Icon(Icons.help_outline_rounded, size: 16),
-                    label: const Text('Troubleshoot Connection'),
+                    label: Text(t.troubleshootPage.title),
                   ),
                 ],
               ),

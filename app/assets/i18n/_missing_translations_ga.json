@@ -4,7 +4,7 @@
     "After editing this file, you can run 'dart run slang apply --locale=ga' to quickly apply the newly added translations."
   ],
   "receiveTab": {
-    "link": "Receive via link"
+    "link": "Receive via Browser"
   },
   "settingsTab": {
     "general": {
@@ -58,7 +58,7 @@
     }
   },
   "webReceivePage": {
-    "title": "Receive via link"
+    "title": "Receive via Browser"
   },
   "whatsNewPage": {
     "title": "What's new in {version}",

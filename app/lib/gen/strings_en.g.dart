@@ -158,11 +158,11 @@ class Translations$general$en {
   /// en: 'Queue'
   String get queue => 'Queue';
 
-  /// en: 'Quick Save'
-  String get quickSave => 'Quick Save';
+  /// en: 'Auto Accept'
+  String get quickSave => 'Auto Accept';
 
-  /// en: 'Quick Save for "Favorites"'
-  String get quickSaveFromFavorites => 'Quick Save for "Favorites"';
+  /// en: 'Auto Accept from Favorites'
+  String get quickSaveFromFavorites => 'Auto Accept from Favorites';
 
   /// en: 'Renamed'
   String get renamed => 'Renamed';
@@ -212,8 +212,8 @@ class Translations$receiveTab$en {
   late final Translations$receiveTab$infoBox$en infoBox = Translations$receiveTab$infoBox$en.internal(_root);
   late final Translations$receiveTab$quickSave$en quickSave = Translations$receiveTab$quickSave$en.internal(_root);
 
-  /// en: 'Receive via link'
-  String get link => 'Receive via link';
+  /// en: 'Receive via Browser'
+  String get link => 'Receive via Browser';
 }
 
 // Path: sendTab
@@ -233,8 +233,8 @@ class Translations$sendTab$en {
   /// en: 'You can also use the "Share" feature of your mobile device to select files more easily.'
   String get shareIntentInfo => 'You can also use the "Share" feature of your mobile device to select files more easily.';
 
-  /// en: 'Nearby devices'
-  String get nearbyDevices => 'Nearby devices';
+  /// en: 'Available devices'
+  String get nearbyDevices => 'Available devices';
 
   /// en: 'This Device'
   String get thisDevice => 'This Device';
@@ -253,8 +253,8 @@ class Translations$sendTab$en {
   /// en: 'Explanation'
   String get sendModeHelp => 'Explanation';
 
-  /// en: 'Please ensure that the desired target is also on the same Wi-Fi network.'
-  String get help => 'Please ensure that the desired target is also on the same Wi-Fi network.';
+  /// en: 'Both devices need to be connected to the same Wi-Fi network for this to work.'
+  String get help => 'Both devices need to be connected to the same Wi-Fi network for this to work.';
 
   /// en: 'Place items to share.'
   String get placeItems => 'Place items to share.';
@@ -531,8 +531,8 @@ class Translations$webSharePage$en {
 
   // Translations
 
-  /// en: 'Share via link'
-  String get title => 'Share via link';
+  /// en: 'Share via Browser'
+  String get title => 'Share via Browser';
 
   /// en: 'Starting server…'
   String get loading => 'Starting server…';
@@ -583,8 +583,8 @@ class Translations$webReceivePage$en {
 
   // Translations
 
-  /// en: 'Receive via link'
-  String get title => 'Receive via link';
+  /// en: 'Receive via Browser'
+  String get title => 'Receive via Browser';
 }
 
 // Path: aboutPage
@@ -1042,8 +1042,8 @@ class Translations$sendTab$sendModes$en {
   /// en: 'Multiple recipients'
   String get multiple => 'Multiple recipients';
 
-  /// en: 'Share via link'
-  String get link => 'Share via link';
+  /// en: 'Share via Browser'
+  String get link => 'Share via Browser';
 }
 
 // Path: settingsTab.general

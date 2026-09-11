@@ -26,8 +26,8 @@
     "online": "Online",
     "open": "Open",
     "queue": "Queue",
-    "quickSave": "Quick Save",
-    "quickSaveFromFavorites": "Quick Save for \"Favourites\"",
+    "quickSave": "Auto Accept",
+    "quickSaveFromFavorites": "Auto Accept for \"Favourites\"",
     "renamed": "Renamed",
     "reset": "Reset",
     "restart": "Restart",
@@ -69,7 +69,7 @@
       "clipboard": "Paste"
     },
     "shareIntentInfo": "You can also use the \"Share\" feature of your mobile device to select files more easily.",
-    "nearbyDevices": "Nearby devices",
+    "nearbyDevices": "Available devices",
     "thisDevice": "This Device",
     "scan": "Look for devices",
     "manualSending": "Manual Sending",
@@ -77,10 +77,10 @@
     "sendModes": {
       "single": "Single recipient",
       "multiple": "Multiple recipients",
-      "link": "Share via link"
+      "link": "Share via Browser"
     },
     "sendModeHelp": "Explanation",
-    "help": "Please ensure that the desired target is also on the same Wi-Fi network.",
+    "help": "Both devices need to be connected to the same Wi-Fi network for this to work.",
     "placeItems": "Place items to share."
   },
   "settingsTab": {

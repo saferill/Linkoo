@@ -153,9 +153,9 @@ class _Translations$general$de extends Translations$general$en {
   @override
   String get queue => 'Warteschlange';
   @override
-  String get quickSave => 'Quick Save';
+  String get quickSave => 'Auto Accept';
   @override
-  String get quickSaveFromFavorites => 'Quick Save für "Favoriten"';
+  String get quickSaveFromFavorites => 'Auto Accept für "Favoriten"';
   @override
   String get renamed => 'Umbenannt';
   @override

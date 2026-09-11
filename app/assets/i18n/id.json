@@ -26,8 +26,8 @@
     "online": "Daring",
     "open": "Buka",
     "queue": "Antrean",
-    "quickSave": "Penyimpanan Cepat",
-    "quickSaveFromFavorites": "Simpan Cepat di “Favorit”",
+    "quickSave": "Terima Otomatis",
+    "quickSaveFromFavorites": "Terima Otomatis dari Favorit",
     "renamed": "Ganti nama",
     "reset": "Batalkan perubahan",
     "restart": "Mengulang Kembali",
@@ -52,7 +52,7 @@
       "favorites": "Favorit",
       "on": "@:general.on"
     },
-    "link": "Terima melalui tautan"
+    "link": "Terima via Browser"
   },
   "sendTab": {
     "title": "Kirim",
@@ -70,7 +70,7 @@
       "clipboard": "Tempel"
     },
     "shareIntentInfo": "Anda juga dapat menggunakan fitur \"Berbagi\" agar dapat memilih berkas dengan lebih mudah.",
-    "nearbyDevices": "Perangkat Terdekat",
+    "nearbyDevices": "Perangkat Tersedia",
     "thisDevice": "Perangkat Ini",
     "scan": "Cari perangkat",
     "manualSending": "Kirim secara manual",
@@ -78,10 +78,10 @@
     "sendModes": {
       "single": "Penerima tunggal",
       "multiple": "Banyak penerima",
-      "link": "Bagikan melalui tautan"
+      "link": "Bagikan via Browser"
     },
     "sendModeHelp": "Penjelasan",
-    "help": "Pastikan perangkat tujuan juga terkoneksi pada jaringan Wi-Fi yang sama.",
+    "help": "Kedua perangkat harus terhubung ke jaringan Wi-Fi yang sama agar fitur ini berfungsi.",
     "placeItems": "Letakkan item untuk dibagikan."
   },
   "settingsTab": {
@@ -279,7 +279,7 @@
     }
   },
   "webSharePage": {
-    "title": "Bagikan melalui Tautan",
+    "title": "Bagikan via Browser",
     "loading": "Memulai peladen…",
     "stopping": "Menghentikan peladen…",
     "error": "Ada galat saat menjalankan peladen.",
@@ -297,7 +297,7 @@
     "pendingRequests": "Banyaknya permintaan yang tertunda: {n}"
   },
   "webReceivePage": {
-    "title": "Terima melalui tautan"
+    "title": "Terima via Browser"
   },
   "aboutPage": {
     "title": "Tentang Linko",
