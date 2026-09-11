@@ -43,58 +43,58 @@ String get _windowsLegacyFile {
 }
 
 // Version of the storage
-const _version = 'ls_version';
+const _version = 'linko_version';
 
 // Security keys (generated on first app start)
-const _securityContext = 'ls_security_context';
+const _securityContext = 'linko_security_context';
 
 // WebRTC
-const _signalingServers = 'ls_signaling_servers';
-const _stunServers = 'ls_stun_servers';
+const _signalingServers = 'linko_signaling_servers';
+const _stunServers = 'linko_stun_servers';
 
 // Received file history
-const _receiveHistory = 'ls_receive_history';
+const _receiveHistory = 'linko_receive_history';
 
 // Favorites
-const _favorites = 'ls_favorites';
+const _favorites = 'linko_favorites';
 
 // App Window Offset and Size info
-const _windowOffsetX = 'ls_window_offset_x';
-const _windowOffsetY = 'ls_window_offset_y';
-const _windowWidth = 'ls_window_width';
-const _windowHeight = 'ls_window_height';
-const _saveWindowPlacement = 'ls_save_window_placement';
+const _windowOffsetX = 'linko_window_offset_x';
+const _windowOffsetY = 'linko_window_offset_y';
+const _windowWidth = 'linko_window_width';
+const _windowHeight = 'linko_window_height';
+const _saveWindowPlacement = 'linko_save_window_placement';
 
 // Settings
-const _showToken = 'ls_show_token';
-const _aliasKey = 'ls_alias';
-const _themeKey = 'ls_theme'; // now called brightness
-const _colorKey = 'ls_color';
-const _customColorKey = 'ls_custom_color'; // RRGGBB hex, used by ColorMode.custom
-const _localeKey = 'ls_locale';
-const _portKey = 'ls_port';
-const _networkWhitelistKey = 'ls_network_whitelist';
-const _networkBlacklistKey = 'ls_network_blacklist';
-const _timeoutKey = 'ls_timeout';
-const _multicastGroupKey = 'ls_multicast_group';
-const _destinationKey = 'ls_destination';
-const _saveToGallery = 'ls_save_to_gallery';
-const _saveToHistory = 'ls_save_to_history';
-const _quickSave = 'ls_quick_save'; // a QuickSaveMode; was a bool until storage version 2 ('ls_quick_save_from_favorites' is merged into this key)
-const _receivePin = 'ls_receive_pin';
-const _autoFinish = 'ls_auto_finish';
-const _minimizeToTray = 'ls_minimize_to_tray';
-const _https = 'ls_https';
-const _sendMode = 'ls_send_mode';
-const _enableAnimations = 'ls_enable_animations';
-const _deviceType = 'ls_device_type';
-const _deviceModel = 'ls_device_model';
-const _shareViaLinkAutoAccept = 'ls_share_via_link_auto_accept';
-const _receiveViaLinkAutoAccept = 'ls_receive_via_link_auto_accept';
-const _createChecksums = 'ls_create_checksums';
-const _verifyChecksums = 'ls_verify_checksums';
-const _advancedSettingsKey = 'ls_advanced_settings';
-const _whatsNewKey = 'ls_whats_new';
+const _showToken = 'linko_show_token';
+const _aliasKey = 'linko_alias';
+const _themeKey = 'linko_theme'; // now called brightness
+const _colorKey = 'linko_color';
+const _customColorKey = 'linko_custom_color'; // RRGGBB hex, used by ColorMode.custom
+const _localeKey = 'linko_locale';
+const _portKey = 'linko_port';
+const _networkWhitelistKey = 'linko_network_whitelist';
+const _networkBlacklistKey = 'linko_network_blacklist';
+const _timeoutKey = 'linko_timeout';
+const _multicastGroupKey = 'linko_multicast_group';
+const _destinationKey = 'linko_destination';
+const _saveToGallery = 'linko_save_to_gallery';
+const _saveToHistory = 'linko_save_to_history';
+const _quickSave = 'linko_quick_save'; // a QuickSaveMode; was a bool until storage version 2 ('linko_quick_save_from_favorites' is merged into this key)
+const _receivePin = 'linko_receive_pin';
+const _autoFinish = 'linko_auto_finish';
+const _minimizeToTray = 'linko_minimize_to_tray';
+const _https = 'linko_https';
+const _sendMode = 'linko_send_mode';
+const _enableAnimations = 'linko_enable_animations';
+const _deviceType = 'linko_device_type';
+const _deviceModel = 'linko_device_model';
+const _shareViaLinkAutoAccept = 'linko_share_via_link_auto_accept';
+const _receiveViaLinkAutoAccept = 'linko_receive_via_link_auto_accept';
+const _createChecksums = 'linko_create_checksums';
+const _verifyChecksums = 'linko_verify_checksums';
+const _advancedSettingsKey = 'linko_advanced_settings';
+const _whatsNewKey = 'linko_whats_new';
 
 final persistenceProvider = Provider<PersistenceService>((ref) {
   throw Exception('persistenceProvider not initialized');
@@ -194,8 +194,8 @@ class PersistenceService {
     }
 
     // migrate legacy auto start settings (current implementation is stateless and relies on the Windows registry / file system)
-    const launchAtStartupLegacyKey = 'ls_launch_at_startup';
-    const launchMinimizedLegacyKey = 'ls_auto_start_launch_minimized';
+    const launchAtStartupLegacyKey = 'linko_launch_at_startup';
+    const launchMinimizedLegacyKey = 'linko_auto_start_launch_minimized';
     if (prefs.getBool(launchAtStartupLegacyKey) == true) {
       _logger.info('Enable auto start on legacy settings');
       await prefs.remove(launchAtStartupLegacyKey);

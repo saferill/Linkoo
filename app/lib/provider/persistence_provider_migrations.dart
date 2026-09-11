@@ -40,11 +40,11 @@ Future<void> _migrate3() async {
   _logger.info('Migrating to version 3');
   final prefs = await SharedPreferencesStorePlatform.instance.getAll();
 
-  // ls_quick_save becomes a QuickSaveMode: keep "on" if it was enabled, otherwise apply the new default "paired"
-  // (which is what ls_quick_save_from_favorites used to do)
+  // linko_quick_save becomes a QuickSaveMode: keep "on" if it was enabled, otherwise apply the new default "paired"
+  // (which is what linko_quick_save_from_favorites used to do)
   final quickSave = prefs['flutter.$_quickSave'] == true ? QuickSaveMode.on : QuickSaveMode.paired;
   await SharedPreferencesStorePlatform.instance.setValue('String', 'flutter.$_quickSave', quickSave.name);
-  await SharedPreferencesStorePlatform.instance.remove('flutter.ls_quick_save_from_favorites');
+  await SharedPreferencesStorePlatform.instance.remove('flutter.linko_quick_save_from_favorites');
 
   // some users disabled HTTPS for performance reasons which no longer apply since the Rust migration
   await SharedPreferencesStorePlatform.instance.setValue('Bool', 'flutter.$_https', true);
