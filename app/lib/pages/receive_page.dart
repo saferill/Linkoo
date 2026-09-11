@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:linko_app/config/theme.dart';
+import 'package:linko_app/core/navigation/router.dart';
 import 'package:linko_app/gen/strings.g.dart';
 import 'package:linko_app/pages/receive_options_page.dart';
 import 'package:linko_app/pages/verify_page.dart';
@@ -21,7 +21,6 @@ import 'package:linko_isolates/model/dto/file_dto.dart';
 import 'package:linko_isolates/model/session_status.dart';
 import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:linko_app/core/navigation/router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ReceivePageVm {
@@ -195,39 +194,53 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                         Column(
                                           crossAxisAlignment: CrossAxisAlignment.stretch,
                                           children: [
-                                            Padding(
-                                              padding: const EdgeInsets.only(top: 20),
-                                              child: SizedBox(
-                                                height: 100,
-                                                child: Card(
-                                                  child: SingleChildScrollView(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.all(10),
-                                                      child: SelectableText(
-                                                        vm.message!,
+                                             Padding(
+                                               padding: const EdgeInsets.only(top: 20),
+                                               child: Container(
+                                                 height: 110,
+                                                 decoration: BoxDecoration(
+                                                   color: Theme.of(context).colorScheme.surfaceContainerLow,
+                                                   borderRadius: BorderRadius.circular(18),
+                                                   border: Border.all(
+                                                     color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.5),
+                                                   ),
+                                                 ),
+                                                 padding: const EdgeInsets.all(12),
+                                                 child: SingleChildScrollView(
+                                                   child: SelectableText(
+                                                     vm.message!,
+                                                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(height: 1.4),
+                                                   ),
+                                                 ),
+                                               ),
+                                             ),
+                                             const SizedBox(height: 12),
+                                             Wrap(
+                                               alignment: WrapAlignment.center,
+                                               spacing: 12,
+                                               runSpacing: 10,
+                                               children: [
+                                                 if (vm.showSenderInfo)
+                                                   FilledButton.tonalIcon(
+                                                    style: FilledButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(14),
                                                       ),
                                                     ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            const SizedBox(height: 10),
-                                            Wrap(
-                                              alignment: WrapAlignment.center,
-                                              spacing: 20,
-                                              runSpacing: 10,
-                                              children: [
-                                                if (vm.showSenderInfo)
-                                                  ElevatedButton.icon(
                                                     onPressed: () async => await context.push(
                                                       () => VerifyPage(
                                                         fingerprint: CombinedFingerprint.load(context, vm.sender.fingerprint),
                                                       ),
                                                     ),
-                                                    icon: Icon(Icons.verified_user),
+                                                    icon: const Icon(Icons.verified_user, size: 18),
                                                     label: Text(t.verifyPage.title),
                                                   ),
-                                                ElevatedButton.icon(
+                                                FilledButton.tonalIcon(
+                                                  style: FilledButton.styleFrom(
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(14),
+                                                    ),
+                                                  ),
                                                   onPressed: () {
                                                     unawaited(
                                                       Clipboard.setData(ClipboardData(text: vm.message!)),
@@ -238,14 +251,15 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                                     vm.onAccept();
                                                     context.global.dispatch(NavigateAction.popUntil<WebSharePage>());
                                                   },
-                                                  icon: Icon(Icons.copy),
+                                                  icon: const Icon(Icons.copy, size: 18),
                                                   label: Text(t.general.copy),
                                                 ),
                                                 if (vm.isLink)
-                                                  ElevatedButton.icon(
-                                                    style: ElevatedButton.styleFrom(
-                                                      backgroundColor: Theme.of(context).colorScheme.primary,
-                                                      foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                                                  FilledButton.icon(
+                                                    style: FilledButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(14),
+                                                      ),
                                                     ),
                                                     onPressed: () {
                                                       // ignore: discarded_futures
@@ -253,7 +267,7 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                                       vm.onAccept();
                                                       context.global.dispatch(NavigateAction.popUntil<WebSharePage>());
                                                     },
-                                                    icon: Icon(Icons.open_in_new),
+                                                    icon: const Icon(Icons.open_in_new, size: 18),
                                                     label: Text(t.general.open),
                                                   ),
                                               ],
@@ -311,19 +325,33 @@ class _Actions extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(bottom: 20),
-            child: Text(
-              t.receivePage.canceled,
-              style: TextStyle(color: Theme.of(context).colorScheme.warning),
-              textAlign: TextAlign.center,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                t.receivePage.canceled,
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onErrorContainer,
+                  fontWeight: FontWeight.w600,
+                ),
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
           Center(
-            child: ElevatedButton.icon(
+            child: FilledButton.tonalIcon(
+              style: FilledButton.styleFrom(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+              ),
               onPressed: () {
                 vm.onClose();
                 context.global.dispatch(NavigateAction.popUntil<WebSharePage>());
               },
-              icon: const Icon(Icons.check_circle),
+              icon: const Icon(Icons.check_circle, size: 18),
               label: Text(t.general.close),
             ),
           ),
@@ -336,26 +364,30 @@ class _Actions extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.error,
-                foregroundColor: Theme.of(context).colorScheme.onError,
+            FilledButton.tonalIcon(
+              style: FilledButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.errorContainer,
+                foregroundColor: Theme.of(context).colorScheme.onErrorContainer,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 14),
               ),
               onPressed: () {
                 vm.onDecline();
                 context.global.dispatch(NavigateAction.popUntil<WebSharePage>());
               },
-              icon: const Icon(Icons.close),
+              icon: const Icon(Icons.close, size: 18),
               label: Text(t.general.decline),
             ),
-            const SizedBox(width: 20),
-            ElevatedButton.icon(
-              style: ElevatedButton.styleFrom(
+            const SizedBox(width: 16),
+            FilledButton.icon(
+              style: FilledButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,
                 foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 14),
               ),
               onPressed: selectedFiles.isEmpty ? null : () => vm.onAccept(),
-              icon: const Icon(Icons.check_circle),
+              icon: const Icon(Icons.check_circle, size: 18),
               label: Text(t.general.accept),
             ),
           ],

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:linko_app/config/theme.dart';
+import 'package:linko_app/core/navigation/router.dart';
 import 'package:linko_app/gen/strings.g.dart';
 import 'package:linko_app/model/state/send/send_session_state.dart';
 import 'package:linko_app/pages/verify_page.dart';
@@ -20,7 +20,6 @@ import 'package:linko_isolates/model/device.dart';
 import 'package:linko_isolates/model/session_status.dart';
 import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:linko_app/core/navigation/router.dart';
 
 class SendPage extends StatefulWidget {
   final bool showAppBar;
@@ -171,79 +170,132 @@ class _SendPageState extends State<SendPage> with Refena {
                           children: [
                             switch (sendState.status) {
                               SessionStatus.waiting => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: sendState.hashedFileCount < sendState.files.length
-                                    ? Column(
-                                        children: [
-                                          Text(
-                                            t.sendPage.calculatingChecksum(curr: sendState.hashedFileCount, n: sendState.files.length),
-                                            textAlign: TextAlign.center,
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: sendState.hashedFileCount < sendState.files.length
+                                      ? Column(
+                                          children: [
+                                            Text(
+                                              t.sendPage.calculatingChecksum(curr: sendState.hashedFileCount, n: sendState.files.length),
+                                              textAlign: TextAlign.center,
+                                              style: Theme.of(context).textTheme.bodyMedium,
+                                            ),
+                                            const SizedBox(height: 15),
+                                            ClipRRect(
+                                              borderRadius: BorderRadius.circular(8),
+                                              child: SizedBox(
+                                                width: 200,
+                                                height: 8,
+                                                child: LinearProgressIndicator(
+                                                  value: _hashProgress(sendState, ref.watch(fileTransferProvider)),
+                                                  backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        )
+                                      : Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                            borderRadius: BorderRadius.circular(12),
                                           ),
-                                          const SizedBox(height: 15),
-                                          SizedBox(
-                                            width: 200,
-                                            child: LinearProgressIndicator(
-                                              value: _hashProgress(sendState, ref.watch(fileTransferProvider)),
+                                          child: Text(
+                                            t.sendPage.waiting,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(
+                                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                              fontWeight: FontWeight.w600,
                                             ),
                                           ),
-                                        ],
-                                      )
-                                    : Text(t.sendPage.waiting, textAlign: TextAlign.center),
-                              ),
+                                        ),
+                                ),
                               SessionStatus.declined => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.rejected,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.warning),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SessionStatus.tooManyAttempts => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.tooManyAttempts,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.warning),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SessionStatus.recipientBusy => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Text(
-                                  t.sendPage.busy,
-                                  style: TextStyle(color: Theme.of(context).colorScheme.warning),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              SessionStatus.finishedWithErrors => Padding(
-                                padding: const EdgeInsets.only(bottom: 20),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(t.general.error, style: TextStyle(color: Theme.of(context).colorScheme.warning)),
-                                    if (sendState.errorMessage != null)
-                                      TextButton(
-                                        style: TextButton.styleFrom(
-                                          foregroundColor: Theme.of(context).colorScheme.warning,
-                                          iconSize: 24,
-                                        ),
-                                        onPressed: () async => showDialog(
-                                          context: context,
-                                          builder: (_) => ErrorDialog(error: sendState.errorMessage!),
-                                        ),
-                                        child: const Icon(Icons.info),
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      t.sendPage.rejected,
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.onErrorContainer,
+                                        fontWeight: FontWeight.w600,
                                       ),
-                                  ],
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
                                 ),
-                              ),
+                              SessionStatus.tooManyAttempts => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.errorContainer.withValues(alpha: 0.7),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      t.sendPage.tooManyAttempts,
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.onErrorContainer,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              SessionStatus.recipientBusy => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).colorScheme.secondaryContainer.withValues(alpha: 0.7),
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    child: Text(
+                                      t.sendPage.busy,
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ),
+                              SessionStatus.finishedWithErrors => Padding(
+                                  padding: const EdgeInsets.only(bottom: 20),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(t.general.error, style: TextStyle(color: Theme.of(context).colorScheme.error, fontWeight: FontWeight.bold)),
+                                      if (sendState.errorMessage != null)
+                                        IconButton(
+                                          style: IconButton.styleFrom(
+                                            foregroundColor: Theme.of(context).colorScheme.error,
+                                          ),
+                                          onPressed: () async => showDialog(
+                                            context: context,
+                                            builder: (_) => ErrorDialog(error: sendState.errorMessage!),
+                                          ),
+                                          icon: const Icon(Icons.info_outline, size: 20),
+                                        ),
+                                    ],
+                                  ),
+                                ),
                               _ => const SizedBox(),
                             },
                             Center(
                               child: FilledButton.icon(
+                                style: FilledButton.styleFrom(
+                                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                                  padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 14),
+                                ),
                                 onPressed: () {
                                   _cancel();
                                   context.global.dispatch(NavigateAction.popUntilRoot());
                                 },
-                                icon: Icon(waiting ? Icons.close : Icons.check_circle),
+                                icon: Icon(waiting ? Icons.close : Icons.check_circle, size: 18),
                                 label: Text(waiting ? t.general.cancel : t.general.close),
                               ),
                             ),
