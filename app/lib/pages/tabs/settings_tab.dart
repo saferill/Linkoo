@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:linko_app/config/theme.dart';
+import 'package:linko_app/core/navigation/router.dart';
 import 'package:linko_app/gen/strings.g.dart';
 import 'package:linko_app/model/persistence/color_mode.dart';
 import 'package:linko_app/pages/about/about_page.dart';
@@ -30,7 +31,6 @@ import 'package:linko_app/widget/responsive_list_view.dart';
 import 'package:linko_isolates/constants.dart';
 import 'package:linko_isolates/model/device.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:linko_app/core/navigation/router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingsTab extends StatelessWidget {
@@ -42,16 +42,71 @@ class SettingsTab extends StatelessWidget {
       provider: (ref) => settingsTabControllerProvider,
       builder: (context, vm) {
         final ref = context.ref;
+        final theme = Theme.of(context);
+        final colorScheme = theme.colorScheme;
+
         return ResponsiveListView(
-          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 40),
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text(t.settingsTab.title, style: Theme.of(context).textTheme.titleLarge, textAlign: TextAlign.center),
+            // ── Device Profile Bento Card ──────────────────────────────
+            Card(
+              elevation: 0,
+              color: colorScheme.surfaceContainerLow,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(24),
+                side: BorderSide(
+                  color: colorScheme.outlineVariant.withValues(alpha: 0.3),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(18),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 52,
+                      height: 52,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        vm.deviceInfo.deviceType.icon,
+                        color: colorScheme.onPrimaryContainer,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            vm.settings.alias,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 18,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 3),
+                          Text(
+                            '${vm.deviceInfo.deviceModel ?? 'Device'} • ${vm.serverState != null ? 'Port ${vm.settings.port}' : t.general.offline}',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const SizedBox(height: 30),
+            const SizedBox(height: 16),
             _SettingsSection(
               title: t.settingsTab.general.title,
+              icon: Icons.tune_rounded,
               children: [
                 _SettingsEntry(
                   label: t.settingsTab.general.brightness,
@@ -147,6 +202,7 @@ class SettingsTab extends StatelessWidget {
             ),
             _SettingsSection(
               title: t.settingsTab.receive.title,
+              icon: Icons.download_rounded,
               children: [
                 _BooleanEntry(
                   label: t.settingsTab.receive.quickSave,
@@ -275,6 +331,7 @@ class SettingsTab extends StatelessWidget {
             if (vm.advanced)
               _SettingsSection(
                 title: t.settingsTab.send.title,
+                icon: Icons.upload_rounded,
                 children: [
                   _BooleanEntry(
                     label: t.settingsTab.send.shareViaLinkAutoAccept,
@@ -294,6 +351,7 @@ class SettingsTab extends StatelessWidget {
               ),
             _SettingsSection(
               title: t.settingsTab.network.title,
+              icon: Icons.wifi_rounded,
               children: [
                 AnimatedCrossFade(
                   crossFadeState:
@@ -509,7 +567,7 @@ class SettingsTab extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 15),
                     child: Text(
                       t.settingsTab.network.multicastGroupWarning(defaultMulticast: defaultMulticastGroup),
-                      style: const TextStyle(color: Colors.grey),
+                      style: TextStyle(color: Theme.of(context).colorScheme.onSurfaceVariant),
                     ),
                   ),
                 ),
@@ -517,6 +575,7 @@ class SettingsTab extends StatelessWidget {
             ),
             _SettingsSection(
               title: t.settingsTab.other.title,
+              icon: Icons.info_outline_rounded,
               padding: const EdgeInsets.only(bottom: 0),
               children: [
                 _ButtonEntry(
@@ -597,14 +656,20 @@ class _SettingsEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.only(bottom: 14),
       child: Row(
         children: [
           Expanded(
-            child: Text(label),
+            child: Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
-          const SizedBox(width: 10),
+          const SizedBox(width: 12),
           SizedBox(
             width: 150,
             child: child,
@@ -630,29 +695,27 @@ class _BooleanEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return _SettingsEntry(
-      label: label,
-      child: Stack(
+    final colorScheme = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: Row(
         children: [
-          Container(
-            width: double.infinity,
-            height: 50,
-            decoration: BoxDecoration(
-              color: theme.inputDecorationTheme.fillColor,
-              borderRadius: theme.inputDecorationTheme.borderRadius,
-            ),
-          ),
-          Positioned.fill(
-            child: Center(
-              child: Switch(
-                value: value,
-                onChanged: onChanged,
-                activeTrackColor: theme.colorScheme.primary,
-                activeThumbColor: theme.colorScheme.onPrimary,
-                inactiveThumbColor: theme.colorScheme.outline,
-                inactiveTrackColor: theme.colorScheme.surface,
+          Expanded(
+            child: Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
               ),
             ),
+          ),
+          const SizedBox(width: 12),
+          Switch(
+            value: value,
+            onChanged: onChanged,
+            activeTrackColor: colorScheme.primary,
+            activeThumbColor: colorScheme.onPrimary,
+            inactiveThumbColor: colorScheme.outline,
+            inactiveTrackColor: colorScheme.surfaceContainerHighest,
           ),
         ],
       ),
@@ -674,23 +737,43 @@ class _ButtonEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _SettingsEntry(
-      label: label,
-      child: TextButton(
-        style: TextButton.styleFrom(
-          backgroundColor: Theme.of(context).inputDecorationTheme.fillColor,
-          shape: RoundedRectangleBorder(borderRadius: Theme.of(context).inputDecorationTheme.borderRadius),
-          foregroundColor: Theme.of(context).colorScheme.onSurface,
-        ),
-        onPressed: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5),
-          child: Text(
-            buttonLabel,
-            style: Theme.of(context).textTheme.titleMedium,
-            textAlign: TextAlign.center,
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(
+              label,
+              style: theme.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+              ),
+            ),
           ),
-        ),
+          const SizedBox(width: 12),
+          SizedBox(
+            width: 150,
+            child: FilledButton.tonal(
+              style: FilledButton.styleFrom(
+                backgroundColor: colorScheme.surfaceContainerHighest,
+                foregroundColor: colorScheme.onSurface,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              ),
+              onPressed: onTap,
+              child: Text(
+                buttonLabel,
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -698,27 +781,67 @@ class _ButtonEntry extends StatelessWidget {
 
 class _SettingsSection extends StatelessWidget {
   final String title;
+  final IconData? icon;
   final List<Widget> children;
   final EdgeInsets padding;
 
   const _SettingsSection({
     required this.title,
+    this.icon,
     required this.children,
-    this.padding = const EdgeInsets.only(bottom: 15),
+    this.padding = const EdgeInsets.only(bottom: 16),
   });
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Padding(
       padding: padding,
       child: Card(
+        elevation: 0,
+        color: colorScheme.surfaceContainerLow,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24),
+          side: BorderSide(
+            color: colorScheme.outlineVariant.withValues(alpha: 0.3),
+          ),
+        ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 15, top: 15),
+          padding: const EdgeInsets.all(18),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(title, style: Theme.of(context).textTheme.titleMedium),
-              const SizedBox(height: 10),
+              Row(
+                children: [
+                  if (icon != null) ...[
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Icon(
+                        icon,
+                        color: colorScheme.onPrimaryContainer,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                  ],
+                  Expanded(
+                    child: Text(
+                      title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 16),
               ...children,
             ],
           ),
