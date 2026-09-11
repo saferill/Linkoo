@@ -6,7 +6,6 @@ import 'package:linko_app/provider/device_info_provider.dart';
 import 'package:linko_app/util/native/platform_check.dart';
 import 'package:linko_app/util/ui/dynamic_colors.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:yaru/yaru.dart' as yaru;
 
 final _borderRadius = BorderRadius.circular(16);
 
@@ -14,10 +13,6 @@ final _borderRadius = BorderRadius.circular(16);
 const Color linkoSeedColor = Color(0xFF2E27A8);
 
 ThemeData getTheme(ColorMode colorMode, Color customColor, Brightness brightness, DynamicColors? dynamicColors) {
-  if (colorMode == ColorMode.yaru) {
-    return _getYaruTheme(brightness);
-  }
-
   final colorScheme = _determineColorScheme(colorMode, customColor, brightness);
 
   final lightInputBorder = OutlineInputBorder(
@@ -190,7 +185,6 @@ ColorScheme _determineColorScheme(ColorMode mode, Color customColor, Brightness 
     ColorMode.oled => defaultColorScheme.copyWith(
       surface: Colors.black,
     ),
-    ColorMode.yaru => throw 'Should reach here',
     ColorMode.custom => ColorScheme.fromSeed(
       seedColor: customColor,
       brightness: brightness,
@@ -198,47 +192,4 @@ ColorScheme _determineColorScheme(ColorMode mode, Color customColor, Brightness 
   };
 
   return colorScheme;
-}
-
-ThemeData _getYaruTheme(Brightness brightness) {
-  final baseTheme = brightness == Brightness.light ? yaru.yaruLight : yaru.yaruDark;
-  final colorScheme = baseTheme.colorScheme;
-
-  final lightInputBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: colorScheme.secondaryContainer),
-    borderRadius: _borderRadius,
-  );
-
-  final darkInputBorder = OutlineInputBorder(
-    borderSide: BorderSide(color: colorScheme.secondaryContainer),
-    borderRadius: _borderRadius,
-  );
-
-  return baseTheme.copyWith(
-    visualDensity: VisualDensity.standard,
-    navigationBarTheme: colorScheme.brightness == Brightness.dark
-        ? NavigationBarThemeData(
-            iconTheme: WidgetStateProperty.all(const IconThemeData(color: Colors.white)),
-          )
-        : null,
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: colorScheme.secondaryContainer,
-      border: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      focusedBorder: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      enabledBorder: colorScheme.brightness == Brightness.light ? lightInputBorder : darkInputBorder,
-      contentPadding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-    ),
-    elevatedButtonTheme: ElevatedButtonThemeData(
-      style: ElevatedButton.styleFrom(
-        foregroundColor: colorScheme.brightness == Brightness.dark ? Colors.white : null,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
-    ),
-    textButtonTheme: TextButtonThemeData(
-      style: TextButton.styleFrom(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      ),
-    ),
-  );
 }
