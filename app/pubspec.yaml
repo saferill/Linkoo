@@ -72,10 +72,24 @@ dev_dependencies:
   dart_mappable_builder: any
   flutter_gen_runner: any
   flutter_lints: ^5.0.0
+  flutter_native_splash: ^2.4.4
   freezed: any
   mockito: any
   slang: ^4.19.1
   test: any
+
+flutter_native_splash:
+  color: "#2E27A8"
+  image: assets/img/splash_logo.png
+  color_dark: "#2E27A8"
+  image_dark: assets/img/splash_logo.png
+  android_12:
+    color: "#2E27A8"
+    image: assets/img/splash_logo.png
+    color_dark: "#2E27A8"
+    image_dark: assets/img/splash_logo.png
+  android: true
+  ios: false
 
 flutter:
   uses-material-design: true
