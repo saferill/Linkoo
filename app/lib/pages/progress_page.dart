@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:linko_app/config/theme.dart';
+import 'package:linko_app/core/navigation/router.dart';
 import 'package:linko_app/gen/strings.g.dart';
 import 'package:linko_app/model/state/server/receive_session_state.dart';
 import 'package:linko_app/pages/web_share_page.dart';
@@ -28,12 +29,8 @@ import 'package:linko_isolates/util/file_size_helper.dart';
 import 'package:linko_isolates/util/file_speed_helper.dart';
 import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:linko_app/core/navigation/router.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
-
-/// Extra space needed below the file list while the progress details are expanded.
-const _advancedProgressPanelExtraPadding = 100.0;
 
 class ProgressPage extends StatefulWidget {
   final bool showAppBar;
@@ -62,8 +59,6 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
   int _finishCounter = 3;
   Timer? _finishTimer;
   Timer? _wakelockPlusTimer;
-
-  bool _advanced = false;
 
   /// On Android the foreground service keeps the process and the connection alive,
   /// so there is no reason to also keep the screen on.
@@ -274,7 +269,7 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
             ListView.builder(
               padding: EdgeInsets.only(
                 top: MediaQuery.of(context).padding.top + 20,
-                bottom: 150 + (_advanced ? _advancedProgressPanelExtraPadding : 0) + getNavBarPadding(context),
+                bottom: 150 + getNavBarPadding(context),
                 left: 15,
                 right: 30,
               ),
@@ -465,84 +460,149 @@ class _ProgressPageState extends State<ProgressPage> with Refena {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                   child: Card(
+                    elevation: 0,
+                    color: Theme.of(context).colorScheme.surfaceContainerLow,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(24),
+                      side: BorderSide(
+                        color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.3),
+                      ),
+                    ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5, top: 10),
+                      padding: const EdgeInsets.all(18),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            status.getLabel(
-                              remainingTime: _remainingTime ?? '-',
-                            ),
-                            style: const TextStyle(fontSize: 20),
+                          Row(
+                            children: [
+                              Container(
+                                width: 40,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.primaryContainer,
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Icon(
+                                  status == SessionStatus.sending
+                                      ? Icons.swap_vert_rounded
+                                      : status == SessionStatus.finished
+                                          ? Icons.check_circle_rounded
+                                          : Icons.info_outline_rounded,
+                                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                                  size: 22,
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  status.getLabel(
+                                    remainingTime: _remainingTime ?? '-',
+                                  ),
+                                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 14),
                           TweenAnimationBuilder(
                             tween: Tween<double>(begin: 0, end: _totalBytes == 0 ? 0 : currBytes / _totalBytes),
                             duration: const Duration(milliseconds: 200),
                             curve: Curves.easeOut,
                             builder: (context, value, child) {
-                              return CustomProgressBar(
-                                progress: value,
-                                borderRadius: 5,
+                              return ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: CustomProgressBar(
+                                  progress: value,
+                                  borderRadius: 8,
+                                ),
                               );
                             },
                           ),
-                          AnimatedCrossFade(
-                            crossFadeState: _advanced ? CrossFadeState.showSecond : CrossFadeState.showFirst,
-                            duration: const Duration(milliseconds: 200),
-                            alignment: Alignment.topLeft,
-                            firstChild: Container(),
-                            secondChild: Padding(
-                              padding: const EdgeInsets.only(top: 10, bottom: 5),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    t.progressPage.total.count(
-                                      curr: finishedCount,
-                                      n: _selectedFiles.length,
-                                    ),
+                          const SizedBox(height: 12),
+                          // Stats Chips
+                          Wrap(
+                            spacing: 8,
+                            runSpacing: 6,
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  '$finishedCount/${_selectedFiles.length} files',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                                   ),
-                                  Text(
-                                    t.progressPage.total.size(
-                                      curr: currBytes.asReadableFileSize,
-                                      n: _totalBytes == double.maxFinite.toInt() ? '-' : _totalBytes.asReadableFileSize,
-                                    ),
-                                  ),
-                                  if (speedInBytes != null)
-                                    Text(
-                                      t.progressPage.total.speed(
-                                        speed: speedInBytes.asReadableFileSize,
-                                      ),
-                                    ),
-                                ],
+                                ),
                               ),
-                            ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Text(
+                                  '${currBytes.asReadableFileSize} / ${_totalBytes == double.maxFinite.toInt() ? '-' : _totalBytes.asReadableFileSize}',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                                  ),
+                                ),
+                              ),
+                              if (speedInBytes != null)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.primaryContainer.withValues(alpha: 0.5),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    '${speedInBytes.asReadableFileSize}/s',
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.bold,
+                                      color: Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                          const SizedBox(height: 5),
+                          const SizedBox(height: 14),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              TextButton.icon(
-                                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onSurface),
-                                onPressed: () {
-                                  setState(() => _advanced = !_advanced);
-                                },
-                                icon: const Icon(Icons.info),
-                                label: Text(_advanced ? t.general.hide : t.general.advanced),
-                              ),
-                              TextButton.icon(
-                                style: TextButton.styleFrom(foregroundColor: Theme.of(context).colorScheme.onSurface),
+                              FilledButton.tonal(
+                                style: FilledButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                ),
                                 onPressed: () => _exit(closeSession: true),
-                                icon: Icon(status == SessionStatus.sending ? Icons.close : Icons.check_circle),
-                                label: Text(
-                                  status == SessionStatus.sending
-                                      ? t.general.cancel
-                                      : _finishTimer != null
-                                      ? '${t.general.done} ($_finishCounter)'
-                                      : t.general.done,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Icon(
+                                      status == SessionStatus.sending ? Icons.close : Icons.check,
+                                      size: 18,
+                                    ),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                      status == SessionStatus.sending
+                                          ? t.general.cancel
+                                          : _finishTimer != null
+                                              ? '${t.general.done} ($_finishCounter)'
+                                              : t.general.done,
+                                      style: const TextStyle(fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
