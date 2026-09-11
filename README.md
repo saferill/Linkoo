@@ -81,6 +81,12 @@ flutter run
 
 ---
 
+## Acknowledgements
+
+Linko's high-speed local network engine and protocol architecture are inspired by and derived from [LocalSend](https://github.com/localsend/localsend) under the [Apache License 2.0](LICENSE).
+
+---
+
 ## License
 
 [Apache License 2.0](LICENSE)
