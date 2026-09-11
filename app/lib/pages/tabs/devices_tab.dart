@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:linko_app/core/navigation/router.dart';
 import 'package:linko_app/gen/strings.g.dart';
 import 'package:linko_app/pages/tabs/send_tab_vm.dart';
 import 'package:linko_app/pages/troubleshoot_page.dart';
@@ -21,7 +22,6 @@ import 'package:linko_app/widget/rotating_widget.dart';
 import 'package:linko_isolates/model/device.dart';
 import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
-import 'package:linko_app/core/navigation/router.dart';
 
 class DevicesTab extends StatefulWidget {
   const DevicesTab({super.key});

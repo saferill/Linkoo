@@ -150,12 +150,12 @@ class SettingsTab extends StatelessWidget {
               children: [
                 _BooleanEntry(
                   label: t.settingsTab.receive.quickSave,
-                  value: vm.settings.quickSave,
+                  value: vm.settings.autoAccept,
                   onChanged: (b) async {
-                    final old = vm.settings.quickSave;
-                    await ref.notifier(settingsProvider).setQuickSave(b);
+                    final old = vm.settings.autoAccept;
+                    await ref.notifier(settingsProvider).setAutoAccept(b);
                     if (b) {
-                      await ref.notifier(settingsProvider).setQuickSaveFromFavorites(false);
+                      await ref.notifier(settingsProvider).setAutoAcceptFromFavorites(false);
                     }
                     if (!old && b && context.mounted) {
                       await QuickSaveNotice.open(context);
@@ -164,12 +164,12 @@ class SettingsTab extends StatelessWidget {
                 ),
                 _BooleanEntry(
                   label: t.settingsTab.receive.quickSaveFromFavorites,
-                  value: vm.settings.quickSaveFromFavorites,
+                  value: vm.settings.autoAcceptFromFavorites,
                   onChanged: (b) async {
-                    final old = vm.settings.quickSaveFromFavorites;
-                    await ref.notifier(settingsProvider).setQuickSaveFromFavorites(b);
+                    final old = vm.settings.autoAcceptFromFavorites;
+                    await ref.notifier(settingsProvider).setAutoAcceptFromFavorites(b);
                     if (b) {
-                      await ref.notifier(settingsProvider).setQuickSave(false);
+                      await ref.notifier(settingsProvider).setAutoAccept(false);
                     }
                     if (!old && b && context.mounted) {
                       await QuickSaveFromFavoritesNotice.open(context);

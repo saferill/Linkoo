@@ -58,8 +58,8 @@ class SettingsService extends PureNotifier<SettingsState> {
     destination: _persistence.getDestination(),
     saveToGallery: _persistence.isSaveToGallery(),
     saveToHistory: _persistence.isSaveToHistory(),
-    quickSave: _persistence.getQuickSave() == QuickSaveMode.on,
-    quickSaveFromFavorites: _persistence.getQuickSave() == QuickSaveMode.paired,
+    autoAccept: _persistence.getQuickSave() == QuickSaveMode.on,
+    autoAcceptFromFavorites: _persistence.getQuickSave() == QuickSaveMode.paired,
     receivePin: _persistence.getReceivePin(),
     autoFinish: _persistence.isAutoFinish(),
     minimizeToTray: _persistence.isMinimizeToTray(),
@@ -175,33 +175,33 @@ class SettingsService extends PureNotifier<SettingsState> {
     );
   }
 
-  Future<void> setQuickSave(bool quickSave) async {
+  Future<void> setAutoAccept(bool autoAccept) async {
     final old = _persistence.getQuickSave();
     final QuickSaveMode mode;
-    if (quickSave) {
+    if (autoAccept) {
       mode = QuickSaveMode.on;
     } else {
       mode = old == QuickSaveMode.on ? QuickSaveMode.off : old;
     }
-    await _setQuickSaveMode(mode);
+    await _setAutoAcceptMode(mode);
   }
 
-  Future<void> setQuickSaveFromFavorites(bool quickSaveFromFavorites) async {
+  Future<void> setAutoAcceptFromFavorites(bool autoAcceptFromFavorites) async {
     final old = _persistence.getQuickSave();
     final QuickSaveMode mode;
-    if (quickSaveFromFavorites) {
+    if (autoAcceptFromFavorites) {
       mode = QuickSaveMode.paired;
     } else {
       mode = old == QuickSaveMode.paired ? QuickSaveMode.off : old;
     }
-    await _setQuickSaveMode(mode);
+    await _setAutoAcceptMode(mode);
   }
 
-  Future<void> _setQuickSaveMode(QuickSaveMode mode) async {
+  Future<void> _setAutoAcceptMode(QuickSaveMode mode) async {
     await _persistence.setQuickSave(mode);
     state = state.copyWith(
-      quickSave: mode == QuickSaveMode.on,
-      quickSaveFromFavorites: mode == QuickSaveMode.paired,
+      autoAccept: mode == QuickSaveMode.on,
+      autoAcceptFromFavorites: mode == QuickSaveMode.paired,
     );
   }
 

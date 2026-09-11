@@ -126,20 +126,20 @@ class ReceiveController {
           statuses: {for (final file in files.values) file.id: FileStatus.queue},
         );
 
-    bool quickSave = settings.quickSave && server.getState().session?.message == null;
-    final quickSaveFromFavorites = settings.quickSaveFromFavorites && server.getState().session?.message == null;
-    if (quickSaveFromFavorites) {
+    bool autoAccept = settings.autoAccept && server.getState().session?.message == null;
+    final autoAcceptFromFavorites = settings.autoAcceptFromFavorites && server.getState().session?.message == null;
+    if (autoAcceptFromFavorites) {
       final bool isFavorite = server.ref.read(favoritesProvider).any((e) => e.fingerprint == senderFingerprint);
       if (isFavorite) {
-        quickSave = true;
+        autoAccept = true;
       }
     }
     if (server.getState().webUpload && settings.receiveViaLinkAutoAccept && server.getState().session?.message == null) {
       // The upload page (receive via link) is being served and requests should be accepted automatically.
-      quickSave = true;
+      autoAccept = true;
     }
 
-    if (quickSave) {
+    if (autoAccept) {
       // Push before accepting: the permission request in [acceptFileRequest] may block for a while.
       // ignore: use_build_context_synchronously, unawaited_futures
       Routerino.context.pushImmediately(
@@ -417,15 +417,15 @@ class ReceiveController {
       // Only auto-close fully successful sessions: a failed file may still be
       // retried by the sender (e.g. after a checksum mismatch), which requires
       // the session to stay open.
-      bool quickSave = settings.quickSave && !hasError && server.getState().session?.message == null;
-      final quickSaveFromFavorites = settings.quickSaveFromFavorites && !hasError && server.getState().session?.message == null;
-      if (quickSaveFromFavorites) {
+      bool autoAccept = settings.autoAccept && !hasError && server.getState().session?.message == null;
+      final autoAcceptFromFavorites = settings.autoAcceptFromFavorites && !hasError && server.getState().session?.message == null;
+      if (autoAcceptFromFavorites) {
         final bool isFavorite = server.ref.read(favoritesProvider).any((e) => e.fingerprint == session.sender.fingerprint);
         if (isFavorite) {
-          quickSave = true;
+          autoAccept = true;
         }
       }
-      if (quickSave) {
+      if (autoAccept) {
         // close the session **after** the response has been sent
         Future.delayed(Duration.zero, () {
           closeSession();
