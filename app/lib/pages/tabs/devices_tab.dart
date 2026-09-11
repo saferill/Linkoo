@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:linko_app/core/navigation/router.dart';
 import 'package:linko_app/gen/strings.g.dart';
+import 'package:linko_app/pages/selected_files_page.dart';
 import 'package:linko_app/pages/tabs/send_tab_vm.dart';
 import 'package:linko_app/pages/troubleshoot_page.dart';
 import 'package:linko_app/pages/web_share_page.dart';
@@ -16,10 +17,12 @@ import 'package:linko_app/provider/settings_provider.dart';
 import 'package:linko_app/util/native/file_picker.dart';
 import 'package:linko_app/widget/device_avatar.dart';
 import 'package:linko_app/widget/dialogs/address_input_dialog.dart';
+import 'package:linko_app/widget/file_thumbnail.dart';
 import 'package:linko_app/widget/pulse_widget.dart';
 import 'package:linko_app/widget/responsive_list_view.dart';
 import 'package:linko_app/widget/rotating_widget.dart';
 import 'package:linko_isolates/model/device.dart';
+import 'package:linko_isolates/util/file_size_helper.dart';
 import 'package:refena_flutter/addons.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 
@@ -37,6 +40,32 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
     ensureRef((ref) async {
       await ref.global.dispatchAsync(SendTabInitAction(context));
     });
+  }
+
+  Future<void> _handleSendToDevice(BuildContext context, Device device) async {
+    final currentSelection = ref.read(selectedSendingFilesProvider);
+    if (currentSelection.isNotEmpty) {
+      await ref.notifier(sendProvider).startSession(
+            target: device,
+            files: currentSelection,
+            background: false,
+          );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terkirim ke ${device.alias}'),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      return;
+    }
+
+    await _showSendSheet(context, device);
   }
 
   Future<void> _showSendSheet(BuildContext context, Device device) async {
@@ -173,6 +202,18 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
             files: pickedFiles,
             background: false,
           );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Terkirim ke ${device.alias}'),
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
     }
   }
 
@@ -187,6 +228,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
     final nearbyDevices = nearbyDevicesState.allDevices.values.toList();
     final favoriteDevices = context.watch(favoritesProvider);
     final animations = context.watch(animationProvider);
+    final selectedFiles = context.watch(selectedSendingFilesProvider);
 
     // Merge favorites that might be offline
     final onlineFingerprints = nearbyDevices.map((d) => d.fingerprint).toSet();
@@ -320,6 +362,104 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
           ),
         ),
 
+        if (selectedFiles.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          // Selection Preview Banner (Shared Intent / Pending Files)
+          Card(
+            elevation: 0,
+            color: colorScheme.primaryContainer.withValues(alpha: 0.35),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+              side: BorderSide(
+                color: colorScheme.primary.withValues(alpha: 0.3),
+              ),
+            ),
+            child: InkWell(
+              onTap: () => context.push(() => const SelectedFilesPage()),
+              borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: Row(
+                  children: [
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: SizedBox(
+                        width: 44,
+                        height: 44,
+                        child: SmartFileThumbnail.fromCrossFile(selectedFiles.first),
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: colorScheme.primary,
+                                  borderRadius: BorderRadius.circular(6),
+                                ),
+                                child: Text(
+                                  'READY TO SEND',
+                                  style: TextStyle(
+                                    fontSize: 9,
+                                    fontWeight: FontWeight.bold,
+                                    color: colorScheme.onPrimary,
+                                    letterSpacing: 0.5,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  selectedFiles.length == 1
+                                      ? selectedFiles.first.name
+                                      : '${selectedFiles.length} files selected',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: theme.textTheme.titleSmall?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            selectedFiles.length == 1
+                                ? selectedFiles.first.size.asReadableFileSize
+                                : '${selectedFiles.first.name}${selectedFiles.length > 1 ? ', ...' : ''} • ${selectedFiles.fold<int>(0, (prev, curr) => prev + curr.size).asReadableFileSize}',
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    IconButton.filledTonal(
+                      onPressed: () {
+                        ref.redux(selectedSendingFilesProvider).dispatch(ClearSelectionAction());
+                      },
+                      tooltip: 'Clear',
+                      icon: const Icon(Icons.close_rounded, size: 18),
+                      style: IconButton.styleFrom(
+                        visualDensity: VisualDensity.compact,
+                        padding: const EdgeInsets.all(8),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
+
         const SizedBox(height: 24),
 
         // 2. Available Devices Section Header
@@ -341,7 +481,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                       builder: (_) => const AddressInputDialog(),
                     );
                     if (device != null && context.mounted) {
-                      await _showSendSheet(context, device);
+                      await _handleSendToDevice(context, device);
                     }
                   },
                   icon: const Icon(Icons.add_link_rounded, size: 20),
@@ -452,7 +592,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                   ),
                 ),
                 trailing: FilledButton.tonal(
-                  onPressed: () => _showSendSheet(context, device),
+                  onPressed: () => _handleSendToDevice(context, device),
                   style: FilledButton.styleFrom(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     shape: RoundedRectangleBorder(
@@ -461,7 +601,7 @@ class _DevicesTabState extends State<DevicesTab> with Refena {
                   ),
                   child: const Text('Send'),
                 ),
-                onTap: () => _showSendSheet(context, device),
+                onTap: () => _handleSendToDevice(context, device),
               ),
             );
           }),
